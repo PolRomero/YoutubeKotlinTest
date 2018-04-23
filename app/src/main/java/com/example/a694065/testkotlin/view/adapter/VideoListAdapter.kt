@@ -38,16 +38,6 @@ class VideoListAdapter(var history: HistoryView, val onItemClick: (Int) -> Unit 
         notifyDataSetChanged()
     }
 
-    override fun onViewDetachedFromWindow(holder: VideoViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        //Picasso.get().clear()
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
-        Picasso.get().clear()
-    }
-
 
     class VideoViewHolder(itemView: View, onItemClick: (Int) -> Unit): RecyclerView.ViewHolder(itemView){
 

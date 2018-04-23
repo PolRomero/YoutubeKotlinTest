@@ -41,10 +41,7 @@ class HistoryActivity : RootActivity<HistoryPresenter.View>(), HistoryPresenter.
     }
 
     override fun updateHistory() {
-        Picasso.get().clear()
-        //adapter.updateItems(presenter.history)
-        adapter = VideoListAdapter(presenter.history, {})
-        recycler_list.adapter = adapter
+        adapter.updateItems(presenter.history)
     }
 
 

@@ -15,6 +15,8 @@ abstract class Presenter<out V: Presenter.View> (val view: V){
 
     abstract fun destroy()
 
+    abstract fun onTrimMemory(level: Int)
+
     interface View
 }
 
