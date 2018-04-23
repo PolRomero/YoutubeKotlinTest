@@ -20,6 +20,15 @@ class RealmDataSource: DatabaseDataSource {
         return query.toSingle().map { it.toModel() }
     }
 
+    override fun getHistoryByTitle(search: String): Single<History> {
+        val query = Rxrealm.getList {
+            it.where(VideoData::class.java).contains("title", search).findAll()
+        }
+        val history = HistoryData()
+        //return query.toSingle()
+        TODO()
+    }
+
     override fun updateHistory(history: HistoryData): Completable {
         Log.d("RealmDataSource", "Updating History with history")
         history.update()

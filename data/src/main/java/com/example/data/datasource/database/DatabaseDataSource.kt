@@ -8,6 +8,7 @@ import io.reactivex.Single
 
 interface DatabaseDataSource {
     fun getHistory(): Single<History>
+    fun getHistoryByTitle(search: String): Single<History>
     fun updateHistory(history: HistoryData): Completable
     fun updateHistory(video: VideoData): Completable
 }
