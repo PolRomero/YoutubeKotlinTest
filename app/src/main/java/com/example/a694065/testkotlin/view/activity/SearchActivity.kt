@@ -40,6 +40,7 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
         registerEditListener()
     }
     override fun updateSearchResults(history: HistoryView) {
+        recycler_list.scrollToPosition(0)
         adapter.updateItems(history)
     }
 
