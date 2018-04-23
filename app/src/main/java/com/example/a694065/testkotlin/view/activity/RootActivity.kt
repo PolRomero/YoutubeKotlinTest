@@ -70,4 +70,9 @@ abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), Kodein
         super.onDestroy()
         //presenter.destroy()
     }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        presenter.onTrimMemory(level)
+    }
 }

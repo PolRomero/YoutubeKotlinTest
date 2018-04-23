@@ -40,9 +40,7 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
         registerEditListener()
     }
     override fun updateSearchResults(history: HistoryView) {
-        //adapter.updateItems(history)
-        adapter = VideoListAdapter(presenter.searchList, {})
-        recycler_list.adapter = adapter
+        adapter.updateItems(history)
     }
 
     private fun  registerEditListener() {
@@ -64,9 +62,5 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
         recycler_list.adapter = adapter
         recycler_list.layoutManager = LinearLayoutManager(this)
     }
-
-    override fun onPause() {
-        super.onPause()
-        recycler_list.adapter = null
-    }
 }
+
