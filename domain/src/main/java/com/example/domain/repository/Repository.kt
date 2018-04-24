@@ -15,4 +15,5 @@ interface DatabaseRepository {
     fun updateHistory(history: History): Completable
     fun updateHistory(video: Video): Completable
     fun getHistory(): Single<History>
+    fun getHistory(search: String): Single<History>
 }

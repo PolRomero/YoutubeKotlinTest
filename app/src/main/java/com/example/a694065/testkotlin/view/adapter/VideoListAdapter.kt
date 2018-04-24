@@ -15,7 +15,8 @@ import com.squareup.picasso.clear
 import kotlinx.android.synthetic.main.video_object.view.*
 
 
-class VideoListAdapter(var history: HistoryView, val onItemClick: (Int) -> Unit = {}): RecyclerView.Adapter<VideoListAdapter.VideoViewHolder>() {
+class VideoListAdapter(var history: HistoryView = HistoryView(), val onItemClick: (Int) -> Unit = {}): RecyclerView.Adapter<VideoListAdapter.VideoViewHolder>() {
+
 
     init {
         Picasso.get().setIndicatorsEnabled(true)

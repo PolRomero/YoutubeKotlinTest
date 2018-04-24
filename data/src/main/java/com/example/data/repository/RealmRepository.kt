@@ -21,4 +21,6 @@ class RealmRepository(val realmDataSource: DatabaseDataSource): DatabaseReposito
     override fun getHistory(): Single<History> =
             realmDataSource.getHistory()
 
+    override fun getHistory(search: String): Single<History> =
+            realmDataSource.getHistoryByTitle(search)
 }

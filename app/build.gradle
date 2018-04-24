@@ -44,4 +44,6 @@ dependencies {
     implementation project(path: ':domain')
     implementation project(path: ':data')
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.uphyca:stetho_realm:2.2.2'
 }

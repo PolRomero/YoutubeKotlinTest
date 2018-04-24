@@ -7,7 +7,7 @@ import com.example.domain.repository.YoutubeRepository
 import io.reactivex.Single
 
 
-class SearchInYoutube(val executor: Executor, val youtubeRepository: YoutubeRepository) : SingleInteractor<History>(executor = executor) {
+class SearchInYoutubeUseCase(val executor: Executor, val youtubeRepository: YoutubeRepository) : SingleInteractor<History>(executor = executor) {
 
     private lateinit var search: String
 

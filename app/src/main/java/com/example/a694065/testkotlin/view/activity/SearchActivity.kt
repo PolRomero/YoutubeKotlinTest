@@ -1,18 +1,13 @@
 package com.example.a694065.testkotlin.view.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.widget.SearchView
 import com.example.a694065.testkotlin.R
 import com.example.a694065.testkotlin.model.HistoryView
 import com.example.a694065.testkotlin.presenter.SearchPresenter
 import com.example.a694065.testkotlin.view.adapter.VideoListAdapter
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.search_layout.*
-import kotlinx.android.synthetic.main.search_layout.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -26,8 +21,8 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
 
     override val activityModule: Kodein.Module = Kodein.Module {
         bind() from provider {
-            SearchPresenter(searchInYoutube = instance(),
-                    updateHistory = instance(),
+            SearchPresenter(searchInYoutubeUseCase = instance(),
+                    updateHistoryUseCase = instance(),
                     view = this@SearchActivity)}
     }
 
@@ -59,7 +54,7 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
     }
 
     private fun startAdapter() {
-        adapter = VideoListAdapter(presenter.searchList, presenter.onItemClick())
+        adapter = VideoListAdapter(onItemClick = presenter.onItemClick())
         recycler_list.adapter = adapter
         recycler_list.layoutManager = LinearLayoutManager(this)
     }
