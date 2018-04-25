@@ -6,7 +6,7 @@ import com.example.domain.model.History
 import com.example.domain.repository.DatabaseRepository
 import io.reactivex.Completable
 
-class UpdateHistoryWithHistory(executor: Executor, val databaseRepository: DatabaseRepository): CompletableInteractor(executor = executor) {
+class UpdateHistoryWithHistoryUseCase(executor: Executor, val databaseRepository: DatabaseRepository): CompletableInteractor(executor = executor) {
 
     lateinit var history: History
 

@@ -4,9 +4,7 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import java.util.*
 
-open class HistoryData : RealmObject() {
-
-    var videos = RealmList<VideoData>()
+open class HistoryData(var videos: RealmList<VideoData> = RealmList()) : RealmObject() {
 
     fun add(video : VideoData) = videos.add(video)
 

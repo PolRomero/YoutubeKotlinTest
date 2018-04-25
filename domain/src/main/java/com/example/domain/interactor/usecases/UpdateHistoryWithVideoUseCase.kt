@@ -7,7 +7,7 @@ import com.example.domain.model.Video
 import com.example.domain.repository.DatabaseRepository
 import io.reactivex.Completable
 
-class UpdateHistoryWithVideo(executor: Executor, val databaseRepository: DatabaseRepository): CompletableInteractor(executor = executor) {
+class UpdateHistoryWithVideoUseCase(executor: Executor, val databaseRepository: DatabaseRepository): CompletableInteractor(executor = executor) {
 
     lateinit var video: Video
 

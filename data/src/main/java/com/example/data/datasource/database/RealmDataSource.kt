@@ -7,7 +7,10 @@ import com.example.data.model.HistoryData
 import com.example.data.model.VideoData
 import com.example.domain.model.History
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.SingleEmitter
+import io.realm.Case
 import io.realm.Realm
 
 
@@ -18,6 +21,19 @@ class RealmDataSource: DatabaseDataSource {
             it.where(HistoryData::class.java).findFirst()
         }
         return query.toSingle().map { it.toModel() }
+    }
+
+    override fun getHistoryByTitle(search: String): Single<History> {
+        val query = Rxrealm.getList {
+            it.where(VideoData::class.java)
+                    .contains(VideoData.TITLE, search, Case.INSENSITIVE)
+                    .findAll()
+        }
+
+        return query.toObservable()
+                .flatMapIterable { it }
+                .collect({ HistoryData() } , { container, value -> container.add(value)})
+                .map { it.toModel() }
     }
 
     override fun updateHistory(history: HistoryData): Completable {
@@ -52,7 +68,7 @@ fun VideoData.updateHistory() {
     realm.executeTransaction {
         val realmHistory = it.where(HistoryData::class.java).findFirst()
         if (realmHistory != null) {
-            if(realmHistory.videos.where().equalTo("id", this.id).findAll().size == 0)
+            if(realmHistory.videos.where().equalTo(VideoData.ID, this.id).findAll().size == 0)
                 realmHistory.videos.add(this)
         } else {
             val newHistory = realm.createObject(HistoryData::class.java)
