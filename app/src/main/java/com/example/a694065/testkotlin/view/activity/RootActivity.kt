@@ -1,10 +1,13 @@
 package com.example.a694065.testkotlin.view.activity
 
+import android.annotation.SuppressLint
+import android.content.ComponentCallbacks2
 import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.a694065.testkotlin.R
+import com.example.a694065.testkotlin.navigation.NavigationManager
 import com.example.a694065.testkotlin.navigation.goToHistory
 import com.example.a694065.testkotlin.navigation.goToSearch
 import com.example.a694065.testkotlin.presenter.Presenter
@@ -48,13 +51,12 @@ abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), Kodein
         mdrawer.syncState()
 
         left_drawer.setOnItemClickListener { parent, view, position, id ->
-            when (position) {
-                0 -> goToSearch(this)
-                1 -> goToHistory(this)
+            when(position) {
+                NavigationManager.ScreenEvent.VIDEO_SEARCH.ordinal -> presenter.navigateTo(NavigationManager.ScreenEvent.VIDEO_SEARCH)
+                NavigationManager.ScreenEvent.HISTORY.ordinal  -> presenter.navigateTo(NavigationManager.ScreenEvent.HISTORY)
             }
         }
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -71,8 +73,24 @@ abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), Kodein
         presenter.destroy()
     }
 
+    @SuppressLint("SwitchIntDef")
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
-        presenter.onTrimMemory(level)
+        when(level) {
+            ComponentCallbacks2.TRIM_MEMORY_COMPLETE,
+            ComponentCallbacks2.TRIM_MEMORY_MODERATE,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW,
+            ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE -> presenter.onTrimMemory()
+        }
     }
+
+    override fun navigateToHistory() {
+        goToHistory(this)
+    }
+
+    override fun navigateToSearch() {
+        goToSearch(this)
+    }
+
 }

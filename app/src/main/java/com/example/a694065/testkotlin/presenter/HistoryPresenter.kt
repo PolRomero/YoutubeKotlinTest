@@ -4,6 +4,7 @@ import android.content.ComponentCallbacks2
 import android.util.Log
 import com.example.a694065.testkotlin.mapper.toView
 import com.example.a694065.testkotlin.model.HistoryView
+import com.example.a694065.testkotlin.navigation.NavigationManager
 import com.example.domain.interactor.usecases.GetHistoryByTitleUseCase
 import com.example.domain.interactor.usecases.GetHistorySavedUseCase
 import com.example.domain.interactor.usecases.UpdateHistoryWithHistoryUseCase
@@ -20,11 +21,13 @@ class HistoryPresenter(val getHistoryViewUseCase: GetHistorySavedUseCase, val up
     }
 
     override fun resume() {
+        super.resume()
+        navigationManager.eventSubject.onNext(NavigationManager.ScreenEvent.HISTORY)
         getAllHistory()
     }
 
     override fun stop() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        super.stop()
     }
 
     override fun destroy() {
@@ -33,15 +36,6 @@ class HistoryPresenter(val getHistoryViewUseCase: GetHistorySavedUseCase, val up
         updateHistoryWithHistoryUseCase.clear()
     }
 
-    override fun onTrimMemory(level: Int) {
-        when(level) {
-            ComponentCallbacks2.TRIM_MEMORY_COMPLETE,
-            ComponentCallbacks2.TRIM_MEMORY_MODERATE,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE -> Picasso.get().clear()
-        }
-    }
 
     fun searchResults(search: String) {
         getHistoryByTitleUseCase.execute(search = search,
@@ -58,7 +52,8 @@ class HistoryPresenter(val getHistoryViewUseCase: GetHistorySavedUseCase, val up
         getHistoryViewUseCase.execute(
                 onSuccess = { history = it.toView(); view.updateHistory()
                     Log.d("History Size", history.history.size.toString())
-                    Log.d("It Size", it.history.size.toString()) },
+                    Log.d("It Size", it.history.size.toString())
+                },
                 onError = { it.printStackTrace() })
     }
 

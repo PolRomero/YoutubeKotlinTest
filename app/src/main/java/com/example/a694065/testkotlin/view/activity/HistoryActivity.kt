@@ -6,6 +6,8 @@ import android.support.v7.widget.SearchView
 import com.example.a694065.testkotlin.R
 import com.example.a694065.testkotlin.presenter.HistoryPresenter
 import com.example.a694065.testkotlin.view.adapter.VideoListAdapter
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.clear
 import kotlinx.android.synthetic.main.search_layout.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -44,6 +46,10 @@ class HistoryActivity : RootActivity<HistoryPresenter.View>(), HistoryPresenter.
     override fun updateHistory() {
         recycler_list.scrollToPosition(0)
         adapter.updateItems(presenter.history)
+    }
+
+    override fun clearMemory() {
+        Picasso.get().clear()
     }
 
     private fun  registerEditListener() {

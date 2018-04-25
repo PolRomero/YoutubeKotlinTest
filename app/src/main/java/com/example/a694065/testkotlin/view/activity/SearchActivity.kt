@@ -1,5 +1,6 @@
 package com.example.a694065.testkotlin.view.activity
 
+import android.content.ComponentCallbacks2
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.SearchView
@@ -7,6 +8,8 @@ import com.example.a694065.testkotlin.R
 import com.example.a694065.testkotlin.model.HistoryView
 import com.example.a694065.testkotlin.presenter.SearchPresenter
 import com.example.a694065.testkotlin.view.adapter.VideoListAdapter
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.clear
 import kotlinx.android.synthetic.main.search_layout.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -39,6 +42,10 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
         adapter.updateItems(history)
     }
 
+    override fun clearMemory() {
+        Picasso.get().clear()
+    }
+
     private fun  registerEditListener() {
         search_view.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -58,5 +65,6 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
         recycler_list.adapter = adapter
         recycler_list.layoutManager = LinearLayoutManager(this)
     }
+
 }
 
