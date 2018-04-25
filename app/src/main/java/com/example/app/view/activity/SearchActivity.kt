@@ -1,13 +1,12 @@
-package com.example.a694065.testkotlin.view.activity
+package com.example.app.view.activity
 
-import android.content.ComponentCallbacks2
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.SearchView
 import com.example.a694065.testkotlin.R
-import com.example.a694065.testkotlin.model.HistoryView
-import com.example.a694065.testkotlin.presenter.SearchPresenter
-import com.example.a694065.testkotlin.view.adapter.VideoListAdapter
+import com.example.app.model.HistoryView
+import com.example.app.presenter.SearchPresenter
+import com.example.app.view.adapter.VideoListAdapter
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.clear
 import kotlinx.android.synthetic.main.search_layout.*
@@ -26,7 +25,8 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
         bind() from provider {
             SearchPresenter(searchInYoutubeUseCase = instance(),
                     updateHistoryUseCase = instance(),
-                    view = this@SearchActivity)}
+                    view = this@SearchActivity)
+        }
     }
 
     override val presenter: SearchPresenter by instance()

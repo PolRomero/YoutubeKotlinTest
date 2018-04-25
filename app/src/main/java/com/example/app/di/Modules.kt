@@ -1,7 +1,7 @@
-package com.example.a694065.testkotlin.di
+package com.example.app.di
 
 import android.content.Context
-import com.example.a694065.testkotlin.executor.Rxecutor
+import com.example.app.executor.Rxecutor
 import com.example.data.datasource.database.DatabaseDataSource
 import com.example.data.datasource.database.RealmDataSource
 import com.example.data.repository.HistoryRepository

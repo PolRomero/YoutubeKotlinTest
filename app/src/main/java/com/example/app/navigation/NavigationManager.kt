@@ -1,4 +1,4 @@
-package com.example.a694065.testkotlin.navigation
+package com.example.app.navigation
 
 import io.reactivex.subjects.PublishSubject
 

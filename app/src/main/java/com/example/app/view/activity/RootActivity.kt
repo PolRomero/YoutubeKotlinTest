@@ -1,4 +1,4 @@
-package com.example.a694065.testkotlin.view.activity
+package com.example.app.view.activity
 
 import android.annotation.SuppressLint
 import android.content.ComponentCallbacks2
@@ -7,15 +7,14 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.a694065.testkotlin.R
-import com.example.a694065.testkotlin.navigation.NavigationManager
-import com.example.a694065.testkotlin.navigation.goToHistory
-import com.example.a694065.testkotlin.navigation.goToSearch
-import com.example.a694065.testkotlin.presenter.Presenter
-import com.example.a694065.testkotlin.view.App
+import com.example.app.navigation.NavigationManager
+import com.example.app.navigation.goToHistory
+import com.example.app.navigation.goToSearch
+import com.example.app.presenter.Presenter
+import com.example.app.view.App
 import kotlinx.android.synthetic.main.search_layout.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
-import org.kodein.di.android.closestKodein
 
 
 abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), KodeinAware, Presenter.View {

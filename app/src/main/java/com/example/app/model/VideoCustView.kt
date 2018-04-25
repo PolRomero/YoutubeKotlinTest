@@ -1,4 +1,4 @@
-package com.example.a694065.testkotlin.model
+package com.example.app.model
 
 data class VideoCustView(val title : String,
                          val description : String,

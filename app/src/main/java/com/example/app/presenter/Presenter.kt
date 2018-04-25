@@ -1,6 +1,6 @@
-package com.example.a694065.testkotlin.presenter
+package com.example.app.presenter
 
-import com.example.a694065.testkotlin.navigation.NavigationManager
+import com.example.app.navigation.NavigationManager
 import io.reactivex.disposables.Disposable
 
 

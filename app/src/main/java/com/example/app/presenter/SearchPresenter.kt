@@ -1,15 +1,15 @@
-package com.example.a694065.testkotlin.presenter
+package com.example.app.presenter
 
 import android.util.Log
-import com.example.a694065.testkotlin.mapper.toModel
-import com.example.a694065.testkotlin.mapper.toView
-import com.example.a694065.testkotlin.model.HistoryView
-import com.example.a694065.testkotlin.navigation.NavigationManager
+import com.example.app.mapper.toModel
+import com.example.app.mapper.toView
+import com.example.app.model.HistoryView
+import com.example.app.navigation.NavigationManager
 import com.example.domain.interactor.usecases.SearchInYoutubeUseCase
 import com.example.domain.interactor.usecases.UpdateHistoryWithVideoUseCase
 
 
-class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val updateHistoryUseCase: UpdateHistoryWithVideoUseCase, view: SearchPresenter.View): Presenter<SearchPresenter.View>(view) {
+class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val updateHistoryUseCase: UpdateHistoryWithVideoUseCase, view: View): Presenter<SearchPresenter.View>(view) {
 
     var searchList = HistoryView(ArrayList())
 

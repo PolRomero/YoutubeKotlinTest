@@ -1,17 +1,14 @@
-package com.example.a694065.testkotlin.view
+package com.example.app.view
 
-import android.app.Application
 import android.support.multidex.MultiDexApplication
-import com.example.a694065.testkotlin.di.appModule
-import com.example.a694065.testkotlin.di.dataModule
-import com.example.a694065.testkotlin.di.domainModule
+import com.example.app.di.appModule
+import com.example.app.di.dataModule
+import com.example.app.di.domainModule
 import com.facebook.stetho.Stetho
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 import io.realm.Realm
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
-import org.kodein.di.LazyKodein
-import kotlin.reflect.KProperty
 
 class App: MultiDexApplication(), KodeinAware {
 

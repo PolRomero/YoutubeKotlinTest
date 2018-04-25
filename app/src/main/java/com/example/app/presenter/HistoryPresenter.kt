@@ -1,18 +1,15 @@
-package com.example.a694065.testkotlin.presenter
+package com.example.app.presenter
 
-import android.content.ComponentCallbacks2
 import android.util.Log
-import com.example.a694065.testkotlin.mapper.toView
-import com.example.a694065.testkotlin.model.HistoryView
-import com.example.a694065.testkotlin.navigation.NavigationManager
+import com.example.app.mapper.toView
+import com.example.app.model.HistoryView
+import com.example.app.navigation.NavigationManager
 import com.example.domain.interactor.usecases.GetHistoryByTitleUseCase
 import com.example.domain.interactor.usecases.GetHistorySavedUseCase
 import com.example.domain.interactor.usecases.UpdateHistoryWithHistoryUseCase
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.clear
 
 class HistoryPresenter(val getHistoryViewUseCase: GetHistorySavedUseCase, val updateHistoryWithHistoryUseCase: UpdateHistoryWithHistoryUseCase,
-                       val getHistoryByTitleUseCase: GetHistoryByTitleUseCase, view: HistoryPresenter.View): Presenter<HistoryPresenter.View>(view) {
+                       val getHistoryByTitleUseCase: GetHistoryByTitleUseCase, view: View): Presenter<HistoryPresenter.View>(view) {
 
     lateinit var history: HistoryView
 
