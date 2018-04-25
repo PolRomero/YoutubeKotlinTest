@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TestKotlin</string>
-    <string-array name="menuitems">
+    <string-array name="menu_items">
         <item>Youtube Search</item>
         <item>History</item>
     </string-array>

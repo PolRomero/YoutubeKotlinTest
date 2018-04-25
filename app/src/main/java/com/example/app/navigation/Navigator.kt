@@ -1,9 +1,9 @@
-package com.example.a694065.testkotlin.navigation
+package com.example.app.navigation
 
 import android.content.Intent
-import com.example.a694065.testkotlin.view.activity.HistoryActivity
-import com.example.a694065.testkotlin.view.activity.RootActivity
-import com.example.a694065.testkotlin.view.activity.SearchActivity
+import com.example.app.view.activity.HistoryActivity
+import com.example.app.view.activity.RootActivity
+import com.example.app.view.activity.SearchActivity
 
 fun goToHistory(context: RootActivity<*>) {
     context.startActivity(Intent(context, HistoryActivity::class.java))

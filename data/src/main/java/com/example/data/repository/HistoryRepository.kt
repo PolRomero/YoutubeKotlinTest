@@ -9,7 +9,7 @@ import com.example.domain.repository.DatabaseRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class RealmRepository(val realmDataSource: DatabaseDataSource): DatabaseRepository {
+class HistoryRepository(val realmDataSource: DatabaseDataSource): DatabaseRepository {
 
     override fun updateHistory(video: Video): Completable =
             realmDataSource.updateHistory(video.toData())

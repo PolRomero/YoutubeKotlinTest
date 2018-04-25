@@ -1,17 +1,14 @@
-package com.example.a694065.testkotlin.view.adapter
+package com.example.app.view.adapter
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.a694065.testkotlin.R
-import com.example.a694065.testkotlin.model.HistoryView
-import com.example.a694065.testkotlin.model.VideoCustView
-import com.squareup.picasso.MemoryPolicy
+import com.example.app.model.HistoryView
+import com.example.app.model.VideoCustView
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.clear
 import kotlinx.android.synthetic.main.video_object.view.*
 
 
@@ -25,7 +22,7 @@ class VideoListAdapter(var history: HistoryView = HistoryView(), val onItemClick
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.video_object, parent, false)
         return VideoViewHolder(view,
-                onItemClick = {  onItemClick(it) })
+                onItemClick = { onItemClick(it) })
     }
 
     override fun getItemCount(): Int = history.history.size

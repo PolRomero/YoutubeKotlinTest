@@ -1,4 +1,4 @@
-package com.example.a694065.testkotlin.executor
+package com.example.app.executor
 
 import com.example.domain.executor.Executor
 import io.reactivex.Scheduler

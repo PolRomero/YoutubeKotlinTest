@@ -1,17 +1,15 @@
-package com.example.a694065.testkotlin.presenter
+package com.example.app.presenter
 
-import android.content.ComponentCallbacks2
 import android.util.Log
-import com.example.a694065.testkotlin.mapper.toModel
-import com.example.a694065.testkotlin.mapper.toView
-import com.example.a694065.testkotlin.model.HistoryView
+import com.example.app.mapper.toModel
+import com.example.app.mapper.toView
+import com.example.app.model.HistoryView
+import com.example.app.navigation.NavigationManager
 import com.example.domain.interactor.usecases.SearchInYoutubeUseCase
 import com.example.domain.interactor.usecases.UpdateHistoryWithVideoUseCase
-import com.example.domain.model.History
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.clear
 
-class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val updateHistoryUseCase: UpdateHistoryWithVideoUseCase, view: SearchPresenter.View): Presenter<SearchPresenter.View>(view) {
+
+class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val updateHistoryUseCase: UpdateHistoryWithVideoUseCase, view: View): Presenter<SearchPresenter.View>(view) {
 
     var searchList = HistoryView(ArrayList())
 
@@ -20,11 +18,12 @@ class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val up
     }
 
     override fun resume() {
-
+        super.resume()
+        navigationManager.eventSubject.onNext(NavigationManager.ScreenEvent.VIDEO_SEARCH)
     }
 
     override fun stop() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        super.stop()
     }
 
     override fun destroy() {
@@ -32,15 +31,6 @@ class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val up
         updateHistoryUseCase.clear()
     }
 
-    override fun onTrimMemory(level: Int) {
-        when(level) {
-            ComponentCallbacks2.TRIM_MEMORY_COMPLETE,
-            ComponentCallbacks2.TRIM_MEMORY_MODERATE,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE -> Picasso.get().clear()
-        }
-    }
 
     fun searchResults(query: String) {
         searchInYoutubeUseCase.execute(query,
