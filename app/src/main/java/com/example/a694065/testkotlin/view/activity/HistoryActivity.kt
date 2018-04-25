@@ -54,6 +54,10 @@ class HistoryActivity : RootActivity<HistoryPresenter.View>(), HistoryPresenter.
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText?.length == 0) {
+                    presenter.getAllHistory()
+                    return true
+                }
                 return false
             }
 
