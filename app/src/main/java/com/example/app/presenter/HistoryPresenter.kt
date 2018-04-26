@@ -11,16 +11,14 @@ import com.example.domain.interactor.usecases.UpdateHistoryWithHistoryUseCase
 class HistoryPresenter(val getHistoryViewUseCase: GetHistorySavedUseCase, val updateHistoryWithHistoryUseCase: UpdateHistoryWithHistoryUseCase,
                        val getHistoryByTitleUseCase: GetHistoryByTitleUseCase, view: View): Presenter<HistoryPresenter.View>(view) {
 
-    lateinit var history: HistoryView
+    var history = HistoryView(ArrayList())
 
     override fun initialize() {
-        //getHistoryViewUseCase.execute( { history = it.toView(); view.startAdapter() }, { it.printStackTrace() })
     }
 
     override fun resume() {
         super.resume()
         navigationManager.eventSubject.onNext(NavigationManager.ScreenEvent.HISTORY)
-        getAllHistory()
     }
 
     override fun stop() {

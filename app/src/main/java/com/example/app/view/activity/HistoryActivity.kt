@@ -3,6 +3,7 @@ package com.example.app.view.activity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.example.a694065.testkotlin.R
+import com.example.app.constants.Constants
 import com.example.app.presenter.HistoryPresenter
 import com.example.app.view.adapter.VideoListAdapter
 import com.squareup.picasso.Picasso
@@ -27,19 +28,38 @@ class HistoryActivity : RootActivity<HistoryPresenter.View>(), HistoryPresenter.
                     view = this@HistoryActivity)
         }
     }
+
     override val presenter: HistoryPresenter by instance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startAdapter()
-        recycler_list.layoutManager = LinearLayoutManager(this)
         registerEditListener()
+
+        if(savedInstanceState != null) {
+            restartAdapter(savedInstanceState)
+        } else {
+            startAdapter()
+        }
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putParcelable(Constants.ADAPTER_KEY, adapter)
+        super.onSaveInstanceState(outState)
     }
 
     override fun startAdapter() {
         adapter = VideoListAdapter()
         recycler_list.adapter = adapter
+        recycler_list.layoutManager = LinearLayoutManager(this)
+        presenter.getAllHistory()
+    }
+
+    private fun restartAdapter(savedInstanceState: Bundle) {
+        adapter = savedInstanceState.getParcelable(Constants.ADAPTER_KEY)
+        recycler_list.adapter = adapter
+        recycler_list.layoutManager = LinearLayoutManager(this)
     }
 
     override fun updateHistory() {
