@@ -84,11 +84,11 @@ abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), Kodein
         }
     }
 
-    override fun navigateToHistory() {
+    fun navigateToHistory() {
         goToHistory(this)
     }
 
-    override fun navigateToSearch() {
+    fun navigateToSearch() {
         goToSearch(this)
     }
 

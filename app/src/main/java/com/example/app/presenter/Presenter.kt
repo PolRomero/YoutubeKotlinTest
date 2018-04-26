@@ -26,10 +26,7 @@ abstract class Presenter<out V: Presenter.View> (val view: V){
 
     fun navigateTo(screenEvent: NavigationManager.ScreenEvent) {
         if(screenEvent != currentScreen) {
-            when(screenEvent) {
-                NavigationManager.ScreenEvent.VIDEO_SEARCH -> view.navigateToSearch()
-                NavigationManager.ScreenEvent.HISTORY -> view.navigateToHistory()
-            }
+            TODO()
         }
     }
 
@@ -38,9 +35,6 @@ abstract class Presenter<out V: Presenter.View> (val view: V){
 
     interface View {
         fun clearMemory()
-
-        fun navigateToSearch()
-        fun navigateToHistory()
     }
 }
 

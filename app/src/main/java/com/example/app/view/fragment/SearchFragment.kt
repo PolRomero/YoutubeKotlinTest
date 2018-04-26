@@ -1,4 +1,4 @@
-package com.example.app.view.activity
+package com.example.app.view.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -15,19 +15,18 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
 
-class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.View {
+class SearchFragment : RootFragment<SearchPresenter.View>(), SearchPresenter.View {
 
 
     override val resourceId = R.layout.search_layout
 
 
-    override val activityModule: Kodein.Module = Kodein.Module {
+    override val fragmentModule: Kodein.Module = Kodein.Module {
         bind() from provider {
             SearchPresenter(searchInYoutubeUseCase = instance(),
                     updateHistoryUseCase = instance(),
-                    view = this@SearchActivity)
+                    view = this@SearchFragment)
         }
     }
 
@@ -77,14 +76,14 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
     private fun startAdapter() {
         adapter = VideoListAdapter(onItemClick = presenter.onItemClick())
         recycler_list.adapter = adapter
-        recycler_list.layoutManager = LinearLayoutManager(this)
+        recycler_list.layoutManager = LinearLayoutManager(activity)
     }
 
     private fun restartAdapter(savedInstanceState: Bundle) {
         adapter = savedInstanceState.getParcelable(Constants.ADAPTER_KEY)
         adapter.modifyItemClick(presenter.onItemClick())
         recycler_list.adapter = adapter
-        recycler_list.layoutManager = LinearLayoutManager(this)
+        recycler_list.layoutManager = LinearLayoutManager(activity)
     }
 
 }

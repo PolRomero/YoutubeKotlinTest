@@ -1,4 +1,4 @@
-package com.example.app.view.activity
+package com.example.app.view.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -14,18 +14,18 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class HistoryActivity : RootActivity<HistoryPresenter.View>(), HistoryPresenter.View {
+class HistoryFragment : RootFragment<HistoryPresenter.View>(), HistoryPresenter.View {
 
 
     override val resourceId = R.layout.search_layout
     lateinit var adapter: VideoListAdapter
 
-    override val activityModule: Kodein.Module = Kodein.Module {
+    override val fragmentModule: Kodein.Module = Kodein.Module {
         bind() from provider {
             HistoryPresenter(getHistoryViewUseCase = instance(),
                     updateHistoryWithHistoryUseCase = instance(),
                     getHistoryByTitleUseCase = instance(),
-                    view = this@HistoryActivity)
+                    view = this@HistoryFragment)
         }
     }
 
@@ -52,14 +52,14 @@ class HistoryActivity : RootActivity<HistoryPresenter.View>(), HistoryPresenter.
     override fun startAdapter() {
         adapter = VideoListAdapter()
         recycler_list.adapter = adapter
-        recycler_list.layoutManager = LinearLayoutManager(this)
+        recycler_list.layoutManager = LinearLayoutManager(activity)
         presenter.getAllHistory()
     }
 
     private fun restartAdapter(savedInstanceState: Bundle) {
         adapter = savedInstanceState.getParcelable(Constants.ADAPTER_KEY)
         recycler_list.adapter = adapter
-        recycler_list.layoutManager = LinearLayoutManager(this)
+        recycler_list.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun updateHistory() {
