@@ -1,5 +1,7 @@
 package com.example.app.view.adapter
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +14,16 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.video_object.view.*
 
 
-class VideoListAdapter(var history: HistoryView = HistoryView(), val onItemClick: (Int) -> Unit = {}): RecyclerView.Adapter<VideoListAdapter.VideoViewHolder>() {
+class VideoListAdapter(var history: HistoryView = HistoryView(), var onItemClick: (Int) -> Unit = {}): RecyclerView.Adapter<VideoListAdapter.VideoViewHolder>(), Parcelable {
 
+    constructor(parcel: Parcel): this(parcel.readParcelable(HistoryView::class.java.classLoader) as HistoryView)
 
     init {
         Picasso.get().setIndicatorsEnabled(true)
+    }
+
+    fun modifyItemClick(onItemClick: (Int) -> Unit = {}) {
+        this.onItemClick = onItemClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
@@ -36,6 +43,23 @@ class VideoListAdapter(var history: HistoryView = HistoryView(), val onItemClick
         notifyDataSetChanged()
     }
 
+    override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeParcelable(history, flags)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR: Parcelable.Creator<VideoListAdapter>{
+        override fun createFromParcel(source: Parcel): VideoListAdapter {
+            return VideoListAdapter(source)
+        }
+
+        override fun newArray(size: Int): Array<VideoListAdapter> {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+    }
 
     class VideoViewHolder(itemView: View, onItemClick: (Int) -> Unit): RecyclerView.ViewHolder(itemView){
 
@@ -52,4 +76,6 @@ class VideoListAdapter(var history: HistoryView = HistoryView(), val onItemClick
         }
 
     }
+
+
 }

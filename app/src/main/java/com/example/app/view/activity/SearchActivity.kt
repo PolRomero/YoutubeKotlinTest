@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.SearchView
 import com.example.a694065.testkotlin.R
+import com.example.app.constants.Constants
 import com.example.app.model.HistoryView
 import com.example.app.presenter.SearchPresenter
 import com.example.app.view.adapter.VideoListAdapter
@@ -14,6 +15,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 
 class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.View {
 
@@ -34,9 +36,21 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startAdapter()
         registerEditListener()
+
+        if(savedInstanceState != null) {
+            restartAdapter(savedInstanceState)
+        } else {
+            startAdapter()
+        }
     }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putParcelable(Constants.ADAPTER_KEY, adapter)
+        super.onSaveInstanceState(outState)
+    }
+
+
     override fun updateSearchResults(history: HistoryView) {
         recycler_list.scrollToPosition(0)
         adapter.updateItems(history)
@@ -62,6 +76,13 @@ class SearchActivity : RootActivity<SearchPresenter.View>(), SearchPresenter.Vie
 
     private fun startAdapter() {
         adapter = VideoListAdapter(onItemClick = presenter.onItemClick())
+        recycler_list.adapter = adapter
+        recycler_list.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun restartAdapter(savedInstanceState: Bundle) {
+        adapter = savedInstanceState.getParcelable(Constants.ADAPTER_KEY)
+        adapter.modifyItemClick(presenter.onItemClick())
         recycler_list.adapter = adapter
         recycler_list.layoutManager = LinearLayoutManager(this)
     }
