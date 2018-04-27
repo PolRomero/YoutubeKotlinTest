@@ -2,6 +2,7 @@ package com.example.app.view.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.SearchView
 import com.example.a694065.testkotlin.R
 import com.example.app.constants.Constants
@@ -21,6 +22,9 @@ class SearchFragment : RootFragment<SearchPresenter.View>(), SearchPresenter.Vie
 
     override val resourceId = R.layout.search_layout
 
+    companion object {
+        fun newInstance() = SearchFragment()
+    }
 
     override val fragmentModule: Kodein.Module = Kodein.Module {
         bind() from provider {
@@ -33,8 +37,9 @@ class SearchFragment : RootFragment<SearchPresenter.View>(), SearchPresenter.Vie
     override val presenter: SearchPresenter by instance()
     private lateinit var adapter: VideoListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         registerEditListener()
 
         if(savedInstanceState != null) {

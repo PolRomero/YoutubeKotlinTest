@@ -1,6 +1,7 @@
 package com.example.app.presenter
 
 import android.util.Log
+import com.example.app.mapper.toModel
 import com.example.app.mapper.toView
 import com.example.app.model.HistoryView
 import com.example.app.navigation.NavigationManager
@@ -52,8 +53,13 @@ class HistoryPresenter(val getHistoryViewUseCase: GetHistorySavedUseCase, val up
                 onError = { it.printStackTrace() })
     }
 
+    fun onItemClick(): (position: Int) -> Unit = {
+        navigationManager.videoSubject.onNext(history.history[it].id)
+    }
+
     interface View: Presenter.View {
         fun startAdapter()
         fun updateHistory()
+        fun clearMemory()
     }
 }

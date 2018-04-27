@@ -1,17 +1,22 @@
 package com.example.app.navigation
 
-import android.content.Intent
+import android.app.FragmentManager
 import com.example.app.view.fragment.HistoryFragment
-import com.example.app.view.activity.RootActivity
 import com.example.app.view.fragment.SearchFragment
 
-fun goToHistory(context: RootActivity<*>) {
-    context.startActivity(Intent(context, HistoryFragment::class.java))
-    context.finish()
+fun goToHistory(fragmentManager: FragmentManager, fragmentContainer: Int) {
+    val fragment = HistoryFragment.newInstance()
+
+    fragmentManager.beginTransaction()
+            .replace(fragmentContainer, fragment)
+            .commit()
 }
 
-fun goToSearch(context: RootActivity<*>) {
-    context.startActivity(Intent(context, SearchFragment::class.java))
-    context.finish()
+fun goToSearch(fragmentManager: FragmentManager, fragmentContainer: Int) {
+    val fragment = SearchFragment.newInstance()
+
+    fragmentManager.beginTransaction()
+            .replace(fragmentContainer, fragment)
+            .commit()
 }
 

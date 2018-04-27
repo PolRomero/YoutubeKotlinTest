@@ -1,26 +1,31 @@
 package com.example.app.view.activity
 
-import android.annotation.SuppressLint
-import android.content.ComponentCallbacks2
+
 import android.os.Bundle
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.ListView
 import com.example.a694065.testkotlin.R
 import com.example.app.navigation.NavigationManager
 import com.example.app.navigation.goToHistory
 import com.example.app.navigation.goToSearch
+import com.example.app.presenter.MainPresenter
 import com.example.app.presenter.Presenter
 import com.example.app.view.App
-import kotlinx.android.synthetic.main.search_layout.*
+import com.example.app.view.fragment.HistoryFragment
+import com.example.app.view.fragment.SearchFragment
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 
 
+
 abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), KodeinAware, Presenter.View {
 
-    abstract val presenter: Presenter<V>
-    abstract val resourceId: Int
+    abstract val presenter: Presenter<Presenter.View>
+    abstract var resourceId: Int
 
     abstract val activityModule: Kodein.Module
 
@@ -33,28 +38,6 @@ abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), Kodein
         super.onCreate(savedInstanceState)
         presenter.initialize()
         setContentView(resourceId)
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val mdrawer = object : ActionBarDrawerToggle(this, drawer, R.string.app_name, R.string.app_name) {
-            override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
-            }
-
-            override fun onDrawerOpened(drawerView: View) {
-                super.onDrawerOpened(drawerView)
-            }
-        }
-
-        drawer.addDrawerListener(mdrawer)
-        mdrawer.syncState()
-
-        left_drawer.setOnItemClickListener { parent, view, position, id ->
-            when(position) {
-                NavigationManager.ScreenEvent.VIDEO_SEARCH.ordinal -> presenter.navigateTo(NavigationManager.ScreenEvent.VIDEO_SEARCH)
-                NavigationManager.ScreenEvent.HISTORY.ordinal  -> presenter.navigateTo(NavigationManager.ScreenEvent.HISTORY)
-            }
-        }
     }
 
     override fun onResume() {
@@ -72,24 +55,12 @@ abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), Kodein
         presenter.destroy()
     }
 
-    @SuppressLint("SwitchIntDef")
-    override fun onTrimMemory(level: Int) {
-        super.onTrimMemory(level)
-        when(level) {
-            ComponentCallbacks2.TRIM_MEMORY_COMPLETE,
-            ComponentCallbacks2.TRIM_MEMORY_MODERATE,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW,
-            ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE -> presenter.onTrimMemory()
-        }
-    }
-
     fun navigateToHistory() {
-        goToHistory(this)
+        goToHistory(fragmentManager, R.id.second_fragment)
     }
 
     fun navigateToSearch() {
-        goToSearch(this)
+        goToSearch(fragmentManager, R.id.second_fragment)
     }
 
 }

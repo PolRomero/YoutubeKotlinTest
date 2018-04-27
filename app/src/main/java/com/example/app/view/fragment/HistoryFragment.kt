@@ -2,6 +2,7 @@ package com.example.app.view.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.example.a694065.testkotlin.R
 import com.example.app.constants.Constants
 import com.example.app.presenter.HistoryPresenter
@@ -20,6 +21,10 @@ class HistoryFragment : RootFragment<HistoryPresenter.View>(), HistoryPresenter.
     override val resourceId = R.layout.search_layout
     lateinit var adapter: VideoListAdapter
 
+    companion object {
+        fun newInstance() = HistoryFragment()
+    }
+
     override val fragmentModule: Kodein.Module = Kodein.Module {
         bind() from provider {
             HistoryPresenter(getHistoryViewUseCase = instance(),
@@ -32,8 +37,8 @@ class HistoryFragment : RootFragment<HistoryPresenter.View>(), HistoryPresenter.
     override val presenter: HistoryPresenter by instance()
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         registerEditListener()
 
         if(savedInstanceState != null) {
@@ -50,7 +55,7 @@ class HistoryFragment : RootFragment<HistoryPresenter.View>(), HistoryPresenter.
     }
 
     override fun startAdapter() {
-        adapter = VideoListAdapter()
+        adapter = VideoListAdapter(onItemClick = presenter.onItemClick())
         recycler_list.adapter = adapter
         recycler_list.layoutManager = LinearLayoutManager(activity)
         presenter.getAllHistory()
@@ -58,6 +63,7 @@ class HistoryFragment : RootFragment<HistoryPresenter.View>(), HistoryPresenter.
 
     private fun restartAdapter(savedInstanceState: Bundle) {
         adapter = savedInstanceState.getParcelable(Constants.ADAPTER_KEY)
+        adapter.modifyItemClick(presenter.onItemClick())
         recycler_list.adapter = adapter
         recycler_list.layoutManager = LinearLayoutManager(activity)
     }

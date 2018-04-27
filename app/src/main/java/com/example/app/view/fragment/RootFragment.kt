@@ -22,8 +22,13 @@ abstract class RootFragment<out V: Presenter.View>: Fragment(), KodeinAware, Pre
         import(fragmentModule)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(resourceId, container)
+            inflater?.inflate(resourceId, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         presenter.initialize()
