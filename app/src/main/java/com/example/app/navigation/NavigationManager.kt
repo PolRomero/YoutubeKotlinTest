@@ -4,10 +4,11 @@ import io.reactivex.subjects.PublishSubject
 
 object NavigationManager {
 
-    val eventSubject: PublishSubject<ScreenEvent> = PublishSubject.create()
+    val eventSubject: PublishSubject<Int> = PublishSubject.create()
+    val videoSubject: PublishSubject<String> = PublishSubject.create()
 
-    enum class ScreenEvent {
-        VIDEO_SEARCH,
-        HISTORY
+    object ScreenEvent {
+        val VIDEO_SEARCH = 0
+        val HISTORY = 1
     }
 }

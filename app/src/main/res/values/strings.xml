@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TestKotlin</string>
+    <string name="drawer">Drawer</string>
+    <string name="drawer_content">DrawerContent</string>
     <string-array name="menu_items">
         <item>Youtube Search</item>
         <item>History</item>

@@ -22,10 +22,6 @@ class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val up
         navigationManager.eventSubject.onNext(NavigationManager.ScreenEvent.VIDEO_SEARCH)
     }
 
-    override fun stop() {
-        super.stop()
-    }
-
     override fun destroy() {
         searchInYoutubeUseCase.clear()
         updateHistoryUseCase.clear()
@@ -38,7 +34,10 @@ class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val up
                 { it.printStackTrace() })
     }
 
-    fun onItemClick(): (position: Int) -> Unit = { updateHistoryUseCase.execute(searchList.history[it].toModel(), {}, {it.printStackTrace()}) }
+    fun onItemClick(): (position: Int) -> Unit = {
+        updateHistoryUseCase.execute(searchList.history[it].toModel(), {}, {it.printStackTrace()})
+        navigationManager.videoSubject.onNext(searchList.history[it].id)
+    }
 
 
     fun updateResults(history: HistoryView) {
@@ -49,5 +48,6 @@ class SearchPresenter(val searchInYoutubeUseCase: SearchInYoutubeUseCase, val up
 
     interface View: Presenter.View {
         fun updateSearchResults(history: HistoryView)
+        fun clearMemory()
     }
 }

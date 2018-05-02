@@ -14,16 +14,12 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.video_object.view.*
 
 
-class VideoListAdapter(var history: HistoryView = HistoryView(), var onItemClick: (Int) -> Unit = {}): RecyclerView.Adapter<VideoListAdapter.VideoViewHolder>(), Parcelable {
+class VideoListAdapter(private var history: HistoryView = HistoryView(), private var onItemClick: (Int) -> Unit = {}): RecyclerView.Adapter<VideoListAdapter.VideoViewHolder>(), Parcelable {
 
     constructor(parcel: Parcel): this(parcel.readParcelable(HistoryView::class.java.classLoader) as HistoryView)
 
     init {
         Picasso.get().setIndicatorsEnabled(true)
-    }
-
-    fun modifyItemClick(onItemClick: (Int) -> Unit = {}) {
-        this.onItemClick = onItemClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
@@ -40,6 +36,11 @@ class VideoListAdapter(var history: HistoryView = HistoryView(), var onItemClick
 
     fun updateItems(history: HistoryView) {
         this.history = history
+        notifyDataSetChanged()
+    }
+
+    fun modifyItemClick(onItemClick: (Int) -> Unit = {}) {
+        this.onItemClick = onItemClick
         notifyDataSetChanged()
     }
 

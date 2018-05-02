@@ -7,7 +7,7 @@ import io.reactivex.disposables.Disposable
 abstract class Presenter<out V: Presenter.View> (val view: V){
 
     protected val navigationManager = NavigationManager
-    private lateinit var currentScreen: NavigationManager.ScreenEvent
+    var currentScreen = NavigationManager.ScreenEvent.VIDEO_SEARCH
     private lateinit var eventDisposable: Disposable
 
     abstract fun initialize()
@@ -24,23 +24,9 @@ abstract class Presenter<out V: Presenter.View> (val view: V){
 
     abstract fun destroy()
 
-    fun navigateTo(screenEvent: NavigationManager.ScreenEvent) {
-        if(screenEvent != currentScreen) {
-            when(screenEvent) {
-                NavigationManager.ScreenEvent.VIDEO_SEARCH -> view.navigateToSearch()
-                NavigationManager.ScreenEvent.HISTORY -> view.navigateToHistory()
-            }
-        }
-    }
-
-    open fun onTrimMemory() =
-            view.clearMemory()
 
     interface View {
-        fun clearMemory()
 
-        fun navigateToSearch()
-        fun navigateToHistory()
     }
 }
 
