@@ -2,6 +2,7 @@ package com.example.app.view.fragment
 
 import android.app.Fragment
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,7 @@ abstract class RootFragment<out V: Presenter.View>: Fragment(), KodeinAware, Pre
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
+        Log.d("Fragment", "Fragment created")
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =

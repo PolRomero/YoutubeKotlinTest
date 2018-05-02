@@ -47,7 +47,7 @@ abstract class RootActivity<out V: Presenter.View> : AppCompatActivity(), Kodein
 
     override fun onStop() {
         super.onStop()
-        //presenter.stop()
+        presenter.stop()
     }
 
     override fun onDestroy() {

@@ -1,5 +1,6 @@
 package com.example.app.view.activity
 
+import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.os.Bundle
@@ -37,7 +38,7 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindLayout()
-
+        Log.d("Activity", "Activity created")
         if(savedInstanceState == null) {
             goToSearch(fragmentManager, R.id.second_fragment)
         }
@@ -46,6 +47,11 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
 
     override fun onResume() {
         super.onResume()
+        configLayoutOrientation()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
         configLayoutOrientation()
     }
 
@@ -99,7 +105,7 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
             val youtubeFragment = YouTubePlayerFragment()
             fragmentManager.beginTransaction()
                     .replace(R.id.first_fragment, youtubeFragment)
-                    .commit()
+                    .commitAllowingStateLoss()
             youtubeFragment.initialize(PLAYER_KEY, object: YouTubePlayer.OnInitializedListener {
                 override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, p1: YouTubePlayer?, p2: Boolean) {
                     if(p1 != null) player = p1
