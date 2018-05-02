@@ -19,10 +19,11 @@ class HistoryFragment : RootFragment<HistoryPresenter.View>(), HistoryPresenter.
 
 
     override val resourceId = R.layout.search_layout
-    lateinit var adapter: VideoListAdapter
+    private var adapter: VideoListAdapter? = null
 
     companion object {
         fun newInstance() = HistoryFragment()
+        fun className() = HistoryFragment::javaClass.name
     }
 
     override val fragmentModule: Kodein.Module = Kodein.Module {
@@ -40,11 +41,14 @@ class HistoryFragment : RootFragment<HistoryPresenter.View>(), HistoryPresenter.
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerEditListener()
-
         if(savedInstanceState != null) {
             restartAdapter(savedInstanceState)
         } else {
-            startAdapter()
+            if(adapter == null) {
+                startAdapter()
+            } else {
+                setRecyclerAdapter()
+            }
         }
 
     }
@@ -56,21 +60,24 @@ class HistoryFragment : RootFragment<HistoryPresenter.View>(), HistoryPresenter.
 
     override fun startAdapter() {
         adapter = VideoListAdapter(onItemClick = presenter.onItemClick())
-        recycler_list.adapter = adapter
-        recycler_list.layoutManager = LinearLayoutManager(activity)
+        setRecyclerAdapter()
         presenter.getAllHistory()
     }
 
     private fun restartAdapter(savedInstanceState: Bundle) {
         adapter = savedInstanceState.getParcelable(Constants.ADAPTER_KEY)
-        adapter.modifyItemClick(presenter.onItemClick())
+        adapter?.modifyItemClick(presenter.onItemClick())
+        setRecyclerAdapter()
+    }
+
+    private fun setRecyclerAdapter() {
         recycler_list.adapter = adapter
         recycler_list.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun updateHistory() {
         recycler_list.scrollToPosition(0)
-        adapter.updateItems(presenter.history)
+        adapter?.updateItems(presenter.history)
     }
 
     override fun clearMemory() {
