@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
+import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ListView
@@ -34,6 +36,7 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
     }
     override val presenter: MainPresenter by instance()
     lateinit var player: YouTubePlayer
+    lateinit var mdrawer: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,19 +59,24 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
     }
 
     private fun bindLayout() {
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer)
-        val mdrawer = object : ActionBarDrawerToggle(this, drawer, R.string.app_name, R.string.app_name) { }
-
+        mdrawer = ActionBarDrawerToggle(this, drawer, R.string.app_name, R.string.app_name)
         drawer.addDrawerListener(mdrawer)
         mdrawer.syncState()
-
-        val drawer_content = findViewById<ListView>(R.id.left_drawer)
-        drawer_content.setOnItemClickListener { parent, view, position, id ->
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val drawerContent = findViewById<ListView>(R.id.left_drawer)
+        drawerContent.setOnItemClickListener { parent, view, position, id ->
             presenter.navigateTo(position)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(mdrawer.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun configLayoutOrientation() {
