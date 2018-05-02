@@ -24,6 +24,7 @@ class SearchFragment : RootFragment<SearchPresenter.View>(), SearchPresenter.Vie
 
     companion object {
         fun newInstance() = SearchFragment()
+        fun className() = SearchFragment::javaClass.name
     }
 
     override val fragmentModule: Kodein.Module = Kodein.Module {
@@ -35,7 +36,7 @@ class SearchFragment : RootFragment<SearchPresenter.View>(), SearchPresenter.Vie
     }
 
     override val presenter: SearchPresenter by instance()
-    private lateinit var adapter: VideoListAdapter
+    private var adapter: VideoListAdapter? = null
 
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -45,7 +46,11 @@ class SearchFragment : RootFragment<SearchPresenter.View>(), SearchPresenter.Vie
         if(savedInstanceState != null) {
             restartAdapter(savedInstanceState)
         } else {
-            startAdapter()
+            if(adapter == null) {
+                startAdapter()
+            } else {
+                setRecyclerAdapter()
+            }
         }
     }
 
@@ -57,7 +62,7 @@ class SearchFragment : RootFragment<SearchPresenter.View>(), SearchPresenter.Vie
 
     override fun updateSearchResults(history: HistoryView) {
         recycler_list.scrollToPosition(0)
-        adapter.updateItems(history)
+        adapter?.updateItems(history)
     }
 
     override fun clearMemory() {
@@ -80,13 +85,16 @@ class SearchFragment : RootFragment<SearchPresenter.View>(), SearchPresenter.Vie
 
     private fun startAdapter() {
         adapter = VideoListAdapter(onItemClick = presenter.onItemClick())
-        recycler_list.adapter = adapter
-        recycler_list.layoutManager = LinearLayoutManager(activity)
+        setRecyclerAdapter()
     }
 
     private fun restartAdapter(savedInstanceState: Bundle) {
         adapter = savedInstanceState.getParcelable(Constants.ADAPTER_KEY)
-        adapter.modifyItemClick(presenter.onItemClick())
+        adapter?.modifyItemClick(presenter.onItemClick())
+        setRecyclerAdapter()
+    }
+
+    private fun setRecyclerAdapter() {
         recycler_list.adapter = adapter
         recycler_list.layoutManager = LinearLayoutManager(activity)
     }

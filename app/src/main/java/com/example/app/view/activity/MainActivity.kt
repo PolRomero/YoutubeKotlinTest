@@ -28,6 +28,10 @@ import org.kodein.di.generic.provider
 
 class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
 
+    companion object {
+        val BACK_STACK = "BACK_STACK"
+    }
+
     override var resourceId = R.layout.split_layout_vertical
     override val activityModule: Kodein.Module = Kodein.Module {
         bind() from provider {
@@ -44,8 +48,10 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
         Log.d("Activity", "Activity created")
         if(savedInstanceState == null) {
             goToSearch(fragmentManager, R.id.second_fragment)
+            fragmentManager.addOnBackStackChangedListener {
+                configLayoutOrientation()
+            }
         }
-
     }
 
     override fun onResume() {
@@ -77,6 +83,11 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if(fragmentManager.backStackEntryCount == 1) finish()
+        else fragmentManager.popBackStack()
     }
 
     fun configLayoutOrientation() {
@@ -113,6 +124,7 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
             val youtubeFragment = YouTubePlayerFragment()
             fragmentManager.beginTransaction()
                     .replace(R.id.first_fragment, youtubeFragment)
+                    .addToBackStack(BACK_STACK)
                     .commitAllowingStateLoss()
             youtubeFragment.initialize(PLAYER_KEY, object: YouTubePlayer.OnInitializedListener {
                 override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, p1: YouTubePlayer?, p2: Boolean) {
@@ -130,6 +142,4 @@ class MainActivity: RootActivity<MainPresenter.View>(), MainPresenter.View {
             configLayoutOrientation()
         }
     }
-
-
 }
