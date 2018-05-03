@@ -73,7 +73,6 @@ class VideoListAdapter(private var history: HistoryView = HistoryView(), private
             thumbnailUrl = video.thumbnail
             Picasso.get().load(video.thumbnail).networkPolicy(NetworkPolicy.NO_STORE).into(itemView.image)
             itemView.title.text = video.title
-            itemView.description.text = ""
         }
 
     }

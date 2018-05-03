@@ -1,5 +1,6 @@
 package com.example.app.view.activity
 
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
